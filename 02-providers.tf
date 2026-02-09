@@ -6,8 +6,7 @@ terraform {
     linode = {
       source = "linode/linode"
     }
-  }
-
+  
   backend "s3" {
     bucket  = "terraform-state-bucket"
     key     = "terraform.tfstate"
