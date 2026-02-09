@@ -1,5 +1,5 @@
 data "oci_identity_availability_domains" "ads" {
-  compartment_id = var.compartment_id
+  compartment_id = var.tenancy_ocid
 }
 
 resource "oci_core_instance" "asiwko_vm" {
