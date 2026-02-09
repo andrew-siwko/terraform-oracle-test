@@ -43,6 +43,12 @@ variable "region" {
   default     = "us-ashburn-1"
 }
 
+variable "instance_shape" {
+  description = "The shape of the instance to create"
+  type        = string
+  default     = "VM.Standard.E2.1.Micro"
+}
+
 # # --- Resource Variables ---
 # variable "compartment_id" {
 #   description = "The OCID of the compartment where resources will be created"
