@@ -7,7 +7,6 @@ fingerprint      = "4e:a9:6f:94:b1:75:f3:db:9d:ba:de:57:3d:d1:a1:f9"
 private_key_path = "~/.oci/oci_api_key.pem"
 compartment_id   = "ocid1.compartment.oc1..aaaaaaa..."
 subnet_ocid      = "ocid1.subnet.oc1.iad.aaaaaaa..."
-ssh_public_key_path = "~/.ssh/id_rsa.pub"
-
+ssh_public_key_path = "/container_shared/ansible/ansible_rsa.pub"
 region = "us-ashburn-1"
 
