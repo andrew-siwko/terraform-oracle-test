@@ -5,7 +5,7 @@ terraform {
     bucket  = "terraform-state-bucket"
     key     = "terraform.tfstate"
     region  = "us-ashburn-1"
-    encrypt = true
+    encrypt = false
 
     endpoints = {
       s3 = "https://idndrno2dl3v.compat.objectstorage.us-ashburn-1.oraclecloud.com"
