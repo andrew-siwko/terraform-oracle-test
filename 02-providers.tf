@@ -1,23 +1,13 @@
 terraform {
   required_version = ">= 1.0.0"
 
-  backend "s3" {
-    bucket  = "terraform-state-bucket"
-    key     = "terraform.tfstate"
-    region  = "us-ashburn-1"
-    encrypt = false
-
-    endpoints = {
-      s3 = "https://idndrno2dl3v.compat.objectstorage.us-ashburn-1.oraclecloud.com"
-    }
-
-    # OCI-specific compatibility flags
-    skip_region_validation      = true
-    skip_credentials_validation = true
-    skip_requesting_account_id  = true
-    use_path_style              = true
-    skip_s3_checksum            = true
-    skip_metadata_api_check     = true
+  backend "oci" {
+    bucket    = "terraform-state-bucket"
+    namespace = "idndrno2dl3v"
+    region    = "us-ashburn-1"
+    key       = "terraform.tfstate"
+    
+    auth = "APIKey"
   }
 
   required_providers {
