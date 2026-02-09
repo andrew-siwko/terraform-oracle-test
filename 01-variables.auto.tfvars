@@ -9,4 +9,4 @@ compartment_id   = "ocid1.compartment.oc1..aaaaaaa..."
 subnet_ocid      = "ocid1.subnet.oc1.iad.aaaaaaa..."
 ssh_public_key_path = "~/.ssh/id_rsa.pub"
 
-region = "us-ashburn-2"
+region = "us-ashburn-1"
