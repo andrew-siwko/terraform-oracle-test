@@ -43,11 +43,11 @@ variable "region" {
   default     = "us-ashburn-1"
 }
 
-# --- Resource Variables ---
-variable "compartment_id" {
-  description = "The OCID of the compartment where resources will be created"
-  type        = string
-}
+# # --- Resource Variables ---
+# variable "compartment_id" {
+#   description = "The OCID of the compartment where resources will be created"
+#   type        = string
+# }
 
 variable "subnet_ocid" {
   description = "The OCID of the subnet where the VM will reside"
