@@ -21,5 +21,5 @@ resource "linode_domain_record" "oci01_a_record" {
   name        = "oci01"
   record_type = "A"
   ttl_sec     = 5
-  target      = one(linode_instance.asiwko-vm-01.ipv4)
+  target      = oci_core_instance.rhel_vm.public_ip
 }
