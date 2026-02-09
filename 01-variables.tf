@@ -4,18 +4,6 @@ variable "LINODE_API_KEY" {
   sensitive   = true
 }
 
-variable "instance_region" {
-  description = "The region to create the instance"
-  type        = string
-  default     = ""
-}
-
-variable "instance_type" {
-  description = "Which instance type to create"
-  type    = string
-  default = ""
-}
-
 variable "domain_name" {
   description = "The domain to create instance records in."
   type    = string
@@ -26,4 +14,47 @@ variable "domain_soa_email" {
   description = "The domain manager e-mail address."
   type    = string
   default = "asiwko@siwko.org"
+}
+
+# --- Authentication Variables ---
+variable "tenancy_ocid" {
+  description = "The OCID of your OCI tenancy"
+  type        = string
+}
+
+variable "user_ocid" {
+  description = "The OCID of the user calling the API"
+  type        = string
+}
+
+variable "fingerprint" {
+  description = "Fingerprint of the API private key"
+  type        = string
+}
+
+variable "private_key_path" {
+  description = "The path to your OCI API private key"
+  type        = string
+}
+
+variable "region" {
+  description = "OCI region (e.g., us-ashburn-1)"
+  type        = string
+  default     = "us-ashburn-1"
+}
+
+# --- Resource Variables ---
+variable "compartment_id" {
+  description = "The OCID of the compartment where resources will be created"
+  type        = string
+}
+
+variable "subnet_ocid" {
+  description = "The OCID of the subnet where the VM will reside"
+  type        = string
+}
+
+variable "ssh_public_key_path" {
+  description = "Path to the SSH public key for instance access"
+  type        = string
 }
