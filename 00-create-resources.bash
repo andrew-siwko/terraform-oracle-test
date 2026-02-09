@@ -23,9 +23,14 @@ oci os object get --bucket-name terraform-state-bucket --name terraform.tfstate 
 # to get new keys: 
 oci iam customer-secret-key create --display-name "TerraformS3" --user-id ${USER_OCID}
 
+# find shaped 
+oci compute shape list -c ${COMPARTMENT_OCID}
+
+oci compute shape list -c ${COMPARTMENT_OCID} | jq '.data[] | select(."billing-type" == "ALWAYS_FREE")'
+oci compute shape list -c ${COMPARTMENT_OCID} | jq '.data[] | select(."billing-type" == "LIMITED_FREE")'
+oci compute shape list -c ${COMPARTMENT_OCID} | jq '.data[] | {shape: .shape, billing: ."billing-type"}'
+
 # for aws cli 
 export AWS_ACCESS_KEY_ID="{oracle access key}"
 export AWS_SECRET_ACCESS_KEY="{oracle secret key}"
 
-export AWS_ACCESS_KEY_ID="b4cf93b37a2b473aee1d1c45ae7add45ca2d7510"
-export AWS_SECRET_ACCESS_KEY="2jYH566MLhdQqojfdIrqSncJlI7DRcqMcU0jRjBeATI="
