@@ -41,3 +41,8 @@ provider "oci" {
   private_key_path = var.private_key_path
   region           = var.region
 }
+
+provider "linode" {
+  token = var.LINODE_API_KEY
+}
+
