@@ -10,9 +10,10 @@ resource "oci_core_instance" "asiwko_vm" {
   shape = "VM.Standard.E4.Flex"
   shape_config {
     ocpus         = 1
-    memory_in_gbs = 8
+    memory_in_gbs = 4
   }
 
+  
   create_vnic_details {
     subnet_id        = var.subnet_ocid
     display_name     = "primaryvnic"
@@ -36,4 +37,14 @@ resource "oci_core_instance" "asiwko_vm" {
   }
 
   preserve_boot_volume = false
+}
+
+# some debugging
+data "oci_core_shapes" "available_shapes" {
+    compartment_id      = tenancy_ocid
+    availability_domain = "wXHG:US-ASHBURN-AD-1" # Match your specific AD
+}
+
+output "shapes" {
+    value = [for s in data.oci_core_shapes.available_shapes.shapes : s.name]
 }
