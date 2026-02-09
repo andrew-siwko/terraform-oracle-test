@@ -10,7 +10,7 @@ resource "oci_core_instance" "asiwko_vm" {
   shape = "VM.Standard.E4.Flex"
   shape_config {
     ocpus         = 1
-    memory_in_gbs = 16
+    memory_in_gbs = 8
   }
 
   create_vnic_details {
