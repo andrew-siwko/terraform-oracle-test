@@ -10,3 +10,4 @@ subnet_ocid      = "ocid1.subnet.oc1.iad.aaaaaaa..."
 ssh_public_key_path = "~/.ssh/id_rsa.pub"
 
 region = "us-ashburn-1"
+
