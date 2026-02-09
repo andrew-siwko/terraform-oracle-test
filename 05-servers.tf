@@ -41,7 +41,7 @@ resource "oci_core_instance" "asiwko_vm" {
 
 # some debugging
 data "oci_core_shapes" "available_shapes" {
-    compartment_id      = tenancy_ocid
+    compartment_id      = var.tenancy_ocid
     availability_domain = "wXHG:US-ASHBURN-AD-1" # Match your specific AD
 }
 
