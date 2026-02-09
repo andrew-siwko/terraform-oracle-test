@@ -5,9 +5,7 @@ terraform {
     bucket    = "terraform-state-bucket"
     namespace = "idndrno2dl3v"
     region    = "us-ashburn-1"
-    key       = "terraform.tfstate"
-    
-    auth = "APIKey"
+    # key       = "terraform.tfstate"
   }
 
   required_providers {
