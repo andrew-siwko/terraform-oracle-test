@@ -4,7 +4,7 @@ data "oci_identity_availability_domains" "ads" {
 
 resource "oci_core_instance" "asiwko_vm" {
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
-  compartment_id      = var.compartment_id
+  compartment_id = var.tenancy_ocid
   display_name        = "asiwko-vm-01"
 
   shape = "VM.Standard.E4.Flex"
@@ -17,7 +17,7 @@ resource "oci_core_instance" "asiwko_vm" {
     subnet_id        = var.subnet_ocid
     display_name     = "primaryvnic"
     assign_public_ip = true
-    hostname_label   = "rhel9-vm"
+    hostname_label   = "asiwko-vm-01"
   }
 
   source_details {
