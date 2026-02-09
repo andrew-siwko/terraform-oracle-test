@@ -1,12 +1,6 @@
 terraform {
   required_version = ">= 1.0.0"
 
-    # We will be working with linode and so will need the linode provider
-    # in order to update DNS on linode, we'll need the linode provider.
-    linode = {
-      source = "linode/linode"
-    }
-  
   backend "s3" {
     bucket  = "terraform-state-bucket"
     key     = "terraform.tfstate"
@@ -31,6 +25,12 @@ terraform {
       source  = "oracle/oci"
       version = ">= 4.0.0"
     }
+    # We will be working with linode and so will need the linode provider
+    # in order to update DNS on linode, we'll need the linode provider.
+    linode = {
+      source = "linode/linode"
+    }
+
   }
 }
 
