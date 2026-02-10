@@ -10,9 +10,9 @@ resource "oci_core_instance" "asiwko_vm" {
   shape = var.instance_shape
   
   create_vnic_details {
-    subnet_id        = var.subnet_ocid
-    display_name     = "primaryvnic"
     assign_public_ip = true
+    subnet_id        = oci_core_subnet.asiwko_subnet.id
+    display_name     = "primaryvnic"
     hostname_label   = "asiwko-vm-01"
   }
 
@@ -23,25 +23,8 @@ resource "oci_core_instance" "asiwko_vm" {
   }
 
   metadata = {
-    # Provide your SSH public key to access the instance
     ssh_authorized_keys = file(var.ssh_public_key_path)
-
-    # Optional: user_data for cloud-init (e.g., register with Red Hat Subscription Manager)
-    # user_data = base64encode(file("cloud-init.sh"))
   }
 
   preserve_boot_volume = false
-}
-
-# some debugging
-data "oci_core_shapes" "available_shapes" {
-    compartment_id      = var.tenancy_ocid
-    availability_domain = "wXHG:US-ASHBURN-AD-1" # Match your specific AD
-}
-
-output "shapes" {
-    value = [for s in data.oci_core_shapes.available_shapes.shapes : s.name]
-}
-output "availability_domains" {
-  value=data.oci_identity_availability_domains.ads.*
 }
