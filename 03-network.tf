@@ -24,10 +24,11 @@ resource "oci_core_internet_gateway" "asiwko_ig" {
 
 resource "oci_core_default_route_table" "asiwko_rt" {
   manage_default_resource_id = oci_core_vcn.asiwko_vcn.default_route_table_id
-
   route_rules {
     destination       = "0.0.0.0/0"
     destination_type  = "CIDR_BLOCK"
     network_entity_id = oci_core_internet_gateway.asiwko_ig.id
+    # this was present in the old (2020) route
+    cidr-block        = "0.0.0.0/0"
   }
 }
