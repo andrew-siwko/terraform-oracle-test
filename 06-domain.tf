@@ -16,10 +16,10 @@ resource "linode_domain" "dns_zone" {
 }
 
 # Records for the public IP addresses.
-resource "linode_domain_record" "oci01_a_record" {
-  domain_id   = linode_domain.dns_zone.id
-  name        = "oci01"
-  record_type = "A"
-  ttl_sec     = 5
-  target      = oci_core_instance.asiwko_vm.public_ip
-}
+# resource "linode_domain_record" "oci01_a_record" {
+#   domain_id   = linode_domain.dns_zone.id
+#   name        = "oci01"
+#   record_type = "A"
+#   ttl_sec     = 5
+#   target      = oci_core_instance.asiwko_vm.public_ip
+# }

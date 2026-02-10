@@ -30,6 +30,10 @@ oci compute shape list -c ${COMPARTMENT_OCID} | jq '.data[] | select(."billing-t
 oci compute shape list -c ${COMPARTMENT_OCID} | jq '.data[] | select(."billing-type" == "LIMITED_FREE")'
 oci compute shape list -c ${COMPARTMENT_OCID} | jq '.data[] | {shape: .shape, billing: ."billing-type"}'
 
+
+oci compute image list --compartment-id ${COMPARTMENT_OCID} --shape "VM.Standard.A1.Flex" --query "data[*].{Name:\"display-name\", OCID:id}" --output table
+oci compute image list --compartment-id ${COMPARTMENT_OCID} --shape "VM.Standard.E2.1.Micro" --query "data[*].{Name:\"display-name\", OCID:id}" --output table
+
 # for aws cli 
 export AWS_ACCESS_KEY_ID="{oracle access key}"
 export AWS_SECRET_ACCESS_KEY="{oracle secret key}"
