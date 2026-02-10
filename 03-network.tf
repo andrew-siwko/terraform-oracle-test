@@ -19,3 +19,20 @@ resource "oci_core_subnet" "asiwko_subnet" {
   
   prohibit_public_ip_on_vnic = false
 }
+
+resource "oci_core_internet_gateway" "asiwko_ig" {
+  compartment_id = var.tenancy_ocid
+  display_name   = "asiwko-internet-gateway"
+  vcn_id         = oci_core_vcn.asiwko_vcn.id
+  enabled        = true
+}
+
+resource "oci_core_default_route_table" "asiwko_rt" {
+  manage_default_resource_id = oci_core_vcn.asiwko_vcn.default_route_table_id
+
+  route_rules {
+    destination       = "0.0.0.0/0"
+    destination_type  = "CIDR_BLOCK"
+    network_entity_id = oci_core_internet_gateway.asiwko_ig.id
+  }
+}
