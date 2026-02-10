@@ -10,7 +10,6 @@ resource "oci_core_subnet" "asiwko_subnet" {
   vcn_id              = oci_core_vcn.asiwko_vcn.id
   
   display_name        = "asiwko-subnet"
-  dns_label           = "asiwkosubnet"
   
   cidr_block          = "10.0.1.0/24"
   
