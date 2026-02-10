@@ -3,7 +3,7 @@ data "oci_identity_availability_domains" "ads" {
 }
 
 resource "oci_core_instance" "asiwko_vm" {
-  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
+  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[1].name
   compartment_id = var.tenancy_ocid
   display_name        = "asiwko-vm-01"
 
