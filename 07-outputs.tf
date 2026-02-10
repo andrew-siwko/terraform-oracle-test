@@ -38,8 +38,8 @@ data "oci_core_images" "ol9" {
 
 output "latest_ol9_image_ocid" {
   value = {
-    for image in data.oci_core_images.ol9.images : image.id => {
-      display_name = image.display_name
+    for image in data.oci_core_images.ol9.images : image.display_name => {
+      # display_name = image.display_name
       state        = image.state
       id           = image.id
     }
