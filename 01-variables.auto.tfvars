@@ -11,5 +11,7 @@ region              = "us-ashburn-1"
 
 instance_shape      = "VM.Standard.E2.1.Micro"
 # image_ocid          = "ocid1.image.oc1.iad.aaaaaaaavhiadmsoe7hqq2tj6qlfpvlhvyxlhlaxjgk5kd4auy6bbauvzn2q"
-image_ocid          = "ocid1.image.oc1.iad.aaaaaaaanfvealtkbagzff3alti6od4ehazp67jnstifmfrripsabel3khsa"
+#image_ocid          = "ocid1.image.oc1.iad.aaaaaaaanfvealtkbagzff3alti6od4ehazp67jnstifmfrripsabel3khsa" # Oracle-Linux-8.10-2026.01.29-0
 
+# shall we risk Oracle 9.7?
+image_ocid          = "ocid1.image.oc1.iad.aaaaaaaahvwnjutyewvsr2nkjcfq6i7l5anlm6bslnoom2vaerhwbzc2wx4a"  # Oracle-Linux-9.7-2026.01.29-0
