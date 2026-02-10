@@ -49,6 +49,12 @@ variable "instance_shape" {
   default     = "VM.Standard.E2.1.Micro"
 }
 
+variable "image_ocid" {
+  description = "The ocid of the image to build"
+  type        = string
+  default     = "ocid1.image.oc1.iad.aaaaaaaavhiadmsoe7hqq2tj6qlfpvlhvyxlhlaxjgk5kd4auy6bbauvzn2q"
+}
+
 # # --- Resource Variables ---
 # variable "compartment_id" {
 #   description = "The OCID of the compartment where resources will be created"
