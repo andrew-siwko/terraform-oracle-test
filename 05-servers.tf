@@ -18,8 +18,7 @@ resource "oci_core_instance" "asiwko_vm" {
 
   source_details {
     source_type = "image"
-    # Fix: Use the Oracle Linux 9.7 OCID from your verified list
-    source_id               = "ocid1.image.oc1.iad.aaaaaaaahvwnjutyewvsr2nkjcfq6i7l5anlm6bslnoom2vaerhwbzc2wx4a"
+    source_id               = var.image_ocid
     boot_volume_size_in_gbs = 50
   }
 
@@ -42,4 +41,7 @@ data "oci_core_shapes" "available_shapes" {
 
 output "shapes" {
     value = [for s in data.oci_core_shapes.available_shapes.shapes : s.name]
+}
+output "availability_domains" {
+  value=oci_identity_availability_domains.ads.*
 }
