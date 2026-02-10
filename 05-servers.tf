@@ -43,5 +43,5 @@ output "shapes" {
     value = [for s in data.oci_core_shapes.available_shapes.shapes : s.name]
 }
 output "availability_domains" {
-  value=oci_identity_availability_domains.ads.*
+  value=data.oci_identity_availability_domains.ads.*
 }
