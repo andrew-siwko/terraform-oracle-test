@@ -42,8 +42,8 @@ resource "oci_core_instance" "asiwko_vm" {
 
   create_vnic_details {
     assign_public_ip = true
-    # subnet_id        = oci_core_subnet.asiwko_subnet.id
-    subnet_id        = var.subnet_ocid
+    subnet_id        = oci_core_subnet.asiwko_subnet.id
+    # subnet_id        = var.subnet_ocid
     hostname_label   = "asiwko-vm-01"
   }
 
