@@ -27,4 +27,8 @@ resource "oci_core_instance" "asiwko_vm" {
   }
 
   preserve_boot_volume = false
+  depends_on = [
+    oci_core_internet_gateway.asiwko_ig,
+    oci_core_default_route_table.asiwko_rt
+  ]
 }
