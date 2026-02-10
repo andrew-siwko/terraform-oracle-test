@@ -34,9 +34,12 @@ fi
 ```
 
 ## Observations
-* This was my sixth cloud provisioning project.  I was happy with the other 5 but asked Google Gemin whether there were other providers.  It suggested Oracle and Digital Ocean
-* It took me TBD days to get my VMs provisioned.
-  * Start: 2026-02-07
-  * Functional: TBD
-  * Number of Jenkins builds to success: TBD
+* This was my sixth cloud provisioning project.  I was happy with the other 5 but asked Google Gemini whether there were other providers.  It suggested Oracle and Digital Ocean
+* It took me one day to get my VMs provisioned.  One painful day.  I spent lots of time in the oci console which is super-helpful even if difficult to learn.  I really should learn jq also.  The biggest difficulty was trying to get a subnet to attach to the instance.  Without a dns_label on the subnet and vcn, Terraform would fail with vague work request errors.  Fortunately I had a network from 6 years ago that worked with the instance.  I was able to build the network without the instance then woth the diffs to closure.  That alone took 6 hours.
+* I couldn't find a RHEL image but read that Oracle Linux is compatible.  Oracle Linux 9.7 
+  * Start: 2026-02-09
+  * Functional: 2026-02-09
+  * Number of Jenkins builds to success: 68
   * Hurdles: 
+    * Non-default networking - dns_label.
+    * Locating a compatible shape and image
