@@ -9,16 +9,15 @@ data "oci_core_images" "ol8" {
   operating_system_version = "8"
   shape                    = "VM.Standard.E2.1.Micro"
   state                    = "AVAILABLE"
-  
-  # Optional: Filter out GPU or specialized images
-  # filter {
-  #   name   = "display_name"
-  #   values = ["^Oracle-Linux-8.[0-9]+-[0-9]{4}.[0-9]{2}.[0-9]{2}$"]
-  #   regex  = true
-  # }
 }
 output "latest_ol8_image_ocid" {
-  value = data.oci_core_images.ol8.images.*
+  value = {
+    for image in data.oci_core_images.ol8.images : image.id => {
+      display_name = image.display_name
+      state        = image.state
+      id           = image.id
+    }
+  }
 }
 
 data "oci_core_images" "ol9" {
@@ -28,13 +27,13 @@ data "oci_core_images" "ol9" {
   shape                    = "VM.Standard.E2.1.Micro"
   state                    = "AVAILABLE"
   
-  # Optional: Filter out GPU or specialized images
-  # filter {
-  #   name   = "display_name"
-  #   values = ["^Oracle-Linux-9.[0-9]+-[0-9]{4}.[0-9]{2}.[0-9]{2}$"]
-  #   regex  = true
-  # }
 }
 output "latest_ol9_image_ocid" {
-  value = data.oci_core_images.ol9.images.*
+  value = {
+    for image in data.oci_core_images.ol9.images : image.id => {
+      display_name = image.display_name
+      state        = image.state
+      id           = image.id
+    }
+  }
 }
