@@ -41,6 +41,17 @@ resource "oci_core_security_list" "web_security_list" {
     description = "Allow HTTP"
   }
 
+  # Ingress: Tomcat HTTP
+  ingress_security_rules {
+    protocol = "6" # TCP
+    source   = "0.0.0.0/0"
+    tcp_options {
+      min = 8080
+      max = 8080
+    }
+    description = "Allow Tomcat HTTP"
+  }
+
   # Ingress: HTTPS
   ingress_security_rules {
     protocol = "6" # TCP
