@@ -40,11 +40,11 @@ resource "oci_core_instance" "asiwko_vm" {
   display_name        = "asiwko-vm-01"
   shape               = var.instance_shape
 
-  create_vnic_details {
-    assign_public_ip = true
-    subnet_id        = oci_core_subnet.asiwko_subnet.id
-    hostname_label   = "asiwko-vm-01"
-  }
+  # create_vnic_details {
+  #   assign_public_ip = true
+  #   subnet_id        = oci_core_subnet.asiwko_subnet.id
+  #   hostname_label   = "asiwko-vm-01"
+  # }
 
   source_details {
     source_type             = "image"
