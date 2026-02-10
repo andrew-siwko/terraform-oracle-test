@@ -10,5 +10,6 @@ ssh_public_key_path = "/container_shared/ansible/ansible_rsa.pub"
 region              = "us-ashburn-1"
 
 instance_shape      = "VM.Standard.E2.1.Micro"
-image_ocid          = "ocid1.image.oc1.iad.aaaaaaaavhiadmsoe7hqq2tj6qlfpvlhvyxlhlaxjgk5kd4auy6bbauvzn2q"
+# image_ocid          = "ocid1.image.oc1.iad.aaaaaaaavhiadmsoe7hqq2tj6qlfpvlhvyxlhlaxjgk5kd4auy6bbauvzn2q"
+image_ocid          = "ocid1.image.oc1.iad.aaaaaaaanfvealtkbagzff3alti6od4ehazp67jnstifmfrripsabel3khsa"
 
