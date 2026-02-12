@@ -33,24 +33,18 @@ I tried to build the same basic structures in each of the cloud environments.  E
 * Step 7 - [Digital Ocean](https://github.com/andrew-siwko/terraform-digital-ocean-test)
 
 ## Build Environment
-I stood up my own Jenkins server and built a freestyle job to support the Terraform infrastructure builds.
+I stood up my own Jenkins server and built a freestyle job to support the Terraform infrastructure builds.  Jenkins polls this GitHubrepo and when changes are detected, starts a job whic performs the following steps:
 * terraform init
-* _some bash to import the domain (see below)_
+* terraform state list | grep -q "linode_domain.dns_zone"
+  * _If the zone is not found, import it_
+  * Terraform import linode_domain.dns_zone 3417841
 * terraform plan
 * terraform apply -auto-approve
 * terraform output (This is piped to mail so I get an e-mail with the outputs.)
 
-Yes, I know plan and apply should be separate and intentional.  In this case I found defects in plan which halted the job before apply.  That was useful.  I also commented out apply until plan was pretty close to working.<br/>
-The Jenkins job contains environment variables with authentication information for the cloud environment and [Linode](https://www.linode.com/) (my registrar).<br/>
-I did have a second job to import the domain zone but switched to a conditional in a script.  The code checks to see whether my zone record has been imported.  If not, the zone creation will fail.
-```bash
-if ! terraform state list | grep -q "linode_domain.dns_zone"; then
-  echo "Resource not in state. Importing..."
-  terraform import linode_domain.dns_zone 3417841
-else
-  echo "Domain already managed. Skipping import."
-fi
-```
+The Jenkins job contains environment variables with authentication information for the cloud environment and [Linode](https://www.linode.com/) my DNS registrar.
+The zone resource has to be in terraform to attach the A record for the newly created VM.  Note that the zone resource is marked as "prevent_destroy" in order to stop Terraform from destroying the entire domain zone.
+
 
 ## Observations
 * This was my sixth cloud provisioning project.  I was happy with the other 5 but asked Google Gemini whether there were other providers.  It suggested Oracle and Digital Ocean
