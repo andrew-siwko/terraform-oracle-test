@@ -2,7 +2,7 @@ terraform {
   required_version = ">= 1.0.0"
 
    backend "local" {
-    path = "/container_shared/tfstate/aws.tfstate"
+    path = "/container_shared/tfstate/oracle.tfstate"
   }
 
   # This project started with the state stored in the provider's oject storage.  
