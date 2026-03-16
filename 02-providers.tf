@@ -1,12 +1,18 @@
 terraform {
   required_version = ">= 1.0.0"
 
-  backend "oci" {
-    bucket    = "terraform-state-bucket"
-    namespace = "idndrno2dl3v"
-    region    = "us-ashburn-1"
-    # key       = "terraform.tfstate"
+   backend "local" {
+    path = "/container_shared/tfstate/aws.tfstate"
   }
+
+  # This project started with the state stored in the provider's oject storage.  
+  # I moved it to local storage as providers charge for object storage and there was no benefit once the exercise was complete.
+  # backend "oci" {
+  #   bucket    = "terraform-state-bucket"
+  #   namespace = "idndrno2dl3v"
+  #   region    = "us-ashburn-1"
+  #   # key       = "terraform.tfstate"
+  # }
 
   required_providers {
     oci = {
