@@ -1,4 +1,4 @@
-# I hate doing this manually, but the free shaped are named not tagged with attributes
+# I hate doing this manually, but the free shapes are named not tagged with attributes
 data "oci_core_shapes" "free_shapes" {
   compartment_id      = var.tenancy_ocid
   availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
@@ -13,4 +13,25 @@ data "oci_core_shapes" "free_shapes" {
 # Output the list of found free shapes
 output "always_free_shapes" {
   value = data.oci_core_shapes.free_shapes.shapes[*]
+}
+
+data "oci_core_images" "oracle_linux_arm" {
+  compartment_id           = var.tenancy_ocid
+  operating_system         = "Oracle Linux"
+ # operating_system_version = "8"
+  
+  # This is the critical filter for the A1.Flex shape
+  filter {
+    name   = "launch_mode"
+    values = ["NATIVE"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["aarch64"]
+  }
+}
+
+output "oracle_linux_arm_image" {
+  value = data.oci_core_images.oracle_linux_arm.images[*]
 }
