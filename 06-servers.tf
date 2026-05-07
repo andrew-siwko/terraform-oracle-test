@@ -27,7 +27,7 @@ resource "oci_core_instance" "siwko_vm" {
   # added this for the flexible shape type.
   shape_config {
     ocpus         = 1
-    memory_in_gbs = 6 
+    memory_in_gbs = 1 
   }
 
   metadata = {
