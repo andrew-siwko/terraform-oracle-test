@@ -30,6 +30,16 @@ resource "oci_core_security_list" "web_security_list" {
     description = "Allow Ping"
   }
 
+  ingress_security_rules {
+    protocol = "1" # ICMP
+    source   = "0.0.0.0/0"
+    icmp_options {
+      type = 3
+      code = 4
+    }
+    description = "Allow Path MTU Discovery"
+  }
+
   # Ingress: HTTP
   ingress_security_rules {
     protocol = "6" # TCP
