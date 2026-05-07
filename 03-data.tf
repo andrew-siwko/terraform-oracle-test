@@ -37,3 +37,17 @@ data "oci_core_images" "oracle_linux_arm" {
 output "oracle_linux_arm_image" {
   value = data.oci_core_images.oracle_linux_arm.images[*]
 }
+
+output "essential_image_info" {
+  value = [
+    for img in data.oci_core_images.oracle_linux_arm.images : {
+      name = img.display_name
+      ocid = img.id
+      date = img.time_created
+    }
+  ]
+}
+
+output "latest_arm_image_id" {
+  value = data.oci_core_images.oracle_linux_arm.images[0].id
+}
