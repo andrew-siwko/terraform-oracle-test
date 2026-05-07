@@ -23,8 +23,6 @@ output "essential_shape_info" {
       memory_in_gbs = shape.memory_in_gbs
       ocpus = shape.ocpus
       processor_description = shape.processor_description
-      ocid = shape.id
-      date = shape.time_created
     }
   ]
 }
@@ -65,3 +63,5 @@ output "essential_image_info" {
 output "latest_arm_image_id" {
   value = data.oci_core_images.oracle_linux_arm.images[0].id
 }
+
+locals { latest_arm_image_id = data.oci_core_images.oracle_linux_arm.images[0].id }
