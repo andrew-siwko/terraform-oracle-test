@@ -1,3 +1,17 @@
+resource "oci_core_compute_capacity_report" "test_compute_capacity_report" {
+  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
+  compartment_id      = var.tenancy_ocid
+  shape_availabilities {
+    instance_shape = "VM.Standard.A1.Flex"
+    # Optional: instance_shape_config for flex shapes
+  }
+}
+
+output "capacity_report" {
+  value = data.oci_core_compute_capacity_report.test_compute_capacity_report
+}
+
+
 # I hate doing this manually, but the free shapes are named not tagged with attributes
 data "oci_core_shapes" "free_shapes" {
   compartment_id      = var.tenancy_ocid
