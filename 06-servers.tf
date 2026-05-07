@@ -22,6 +22,12 @@ resource "oci_core_instance" "siwko_vm" {
     boot_volume_size_in_gbs = 50
   }
 
+  # added this for the flexible shape type.
+  shape_config {
+    ocpus         = 1
+    memory_in_gbs = 6 
+  }
+
   metadata = {
     ssh_authorized_keys = file(var.ssh_public_key_path)
   }
