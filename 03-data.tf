@@ -8,7 +8,7 @@ resource "oci_core_compute_capacity_report" "test_compute_capacity_report" {
 }
 
 output "capacity_report" {
-  value = data.oci_core_compute_capacity_report.test_compute_capacity_report
+  value = oci_core_compute_capacity_report.test_compute_capacity_report
 }
 
 
