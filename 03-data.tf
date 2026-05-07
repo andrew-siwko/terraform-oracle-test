@@ -20,15 +20,17 @@ data "oci_core_images" "oracle_linux_arm" {
   operating_system         = "Oracle Linux"
  # operating_system_version = "8"
   
-  # This is the critical filter for the A1.Flex shape
+# Filter for the ARM architecture specifically
   filter {
-    name   = "launch_mode"
-    values = ["NATIVE"]
+    name   = "display_name"
+    values = ["^.*-aarch64-.*$"]
+    regex  = true
   }
 
+  # Ensure we only get "Available" images
   filter {
-    name   = "architecture"
-    values = ["aarch64"]
+    name   = "state"
+    values = ["AVAILABLE"]
   }
 }
 
