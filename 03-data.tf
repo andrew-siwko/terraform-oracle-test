@@ -11,8 +11,22 @@ data "oci_core_shapes" "free_shapes" {
 }
 
 # Output the list of found free shapes
-output "always_free_shapes" {
-  value = data.oci_core_shapes.free_shapes.shapes[*]
+# output "always_free_shapes" {
+#   value = data.oci_core_shapes.free_shapes.shapes[*]
+# }
+
+output "essential_shape_info" {
+  value = [
+    for shape in data.oci_core_shapes.free_shapes.shapes : {
+      name = shape.name
+      network_ports = shape.network_ports
+      memory_in_gbs = shape.memory_in_gbs
+      ocpus = shape.ocpus
+      processor_description = shape.processor_description
+      ocid = shape.id
+      date = shape.time_created
+    }
+  ]
 }
 
 data "oci_core_images" "oracle_linux_arm" {
@@ -34,9 +48,9 @@ data "oci_core_images" "oracle_linux_arm" {
   }
 }
 
-output "oracle_linux_arm_image" {
-  value = data.oci_core_images.oracle_linux_arm.images[*]
-}
+# output "oracle_linux_arm_image" {
+#   value = data.oci_core_images.oracle_linux_arm.images[*]
+# }
 
 output "essential_image_info" {
   value = [
