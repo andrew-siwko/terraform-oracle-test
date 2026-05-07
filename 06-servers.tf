@@ -32,4 +32,13 @@ resource "oci_core_instance" "asiwko_vm" {
   #     oci_core_instance.asiwko_vm.shape
   #   ]  
   # }
+
+}
+
+output "source_details" {
+  value = oci_core_instance.asiwko_vm.source_details
+}
+
+output "shape" {
+  value = oci_core_instance.asiwko_vm.shape
 }
