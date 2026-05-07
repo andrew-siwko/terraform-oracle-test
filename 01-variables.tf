@@ -37,7 +37,7 @@ variable "private_key_path" {
   type        = string
 }
 
-variable "region" {
+variable "oci_region" {
   description = "OCI region (e.g., us-ashburn-1)"
   type        = string
   default     = "us-ashburn-1"
