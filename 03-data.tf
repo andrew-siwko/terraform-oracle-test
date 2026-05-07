@@ -10,6 +10,74 @@ data "oci_core_shapes" "free_shapes" {
   }
 }
 
+data "oci_core_shapes" "free_shapes_0" {
+  compartment_id      = var.tenancy_ocid
+  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
+
+  # Filter for the specific Always Free shape names
+  filter {
+    name   = "name"
+    values = ["VM.Standard.E2.1.Micro", "VM.Standard.A1.Flex"]
+  }
+}
+data "oci_core_shapes" "free_shapes_1" {
+  compartment_id      = var.tenancy_ocid
+  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[1].name
+
+  # Filter for the specific Always Free shape names
+  filter {
+    name   = "name"
+    values = ["VM.Standard.E2.1.Micro", "VM.Standard.A1.Flex"]
+  }
+}
+data "oci_core_shapes" "free_shapes_2" {
+  compartment_id      = var.tenancy_ocid
+  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[2].name
+
+  # Filter for the specific Always Free shape names
+  filter {
+    name   = "name"
+    values = ["VM.Standard.E2.1.Micro", "VM.Standard.A1.Flex"]
+  }
+}
+
+
+output "essential_shape_info_0" {
+  value = [
+    for shape in data.oci_core_shapes.free_shapes_0.shapes : {
+      name = shape.name
+      network_ports = shape.network_ports
+      memory_in_gbs = shape.memory_in_gbs
+      ocpus = shape.ocpus
+      processor_description = shape.processor_description
+    }
+  ]
+}
+
+output "essential_shape_info_1" {
+  value = [
+    for shape in data.oci_core_shapes.free_shapes_1.shapes : {
+      name = shape.name
+      network_ports = shape.network_ports
+      memory_in_gbs = shape.memory_in_gbs
+      ocpus = shape.ocpus
+      processor_description = shape.processor_description
+    }
+  ]
+}
+
+output "essential_shape_info_2" {
+  value = [
+    for shape in data.oci_core_shapes.free_shapes_2.shapes : {
+      name = shape.name
+      network_ports = shape.network_ports
+      memory_in_gbs = shape.memory_in_gbs
+      ocpus = shape.ocpus
+      processor_description = shape.processor_description
+    }
+  ]
+}
+
 # Output the list of found free shapes
 # output "always_free_shapes" {
 #   value = data.oci_core_shapes.free_shapes.shapes[*]
