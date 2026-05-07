@@ -22,6 +22,7 @@ output "essential_shape_info" {
   ]
 }
 
+
 data "oci_core_images" "oracle_linux_arm" {
   compartment_id           = var.tenancy_ocid
   operating_system         = "Oracle Linux"
@@ -41,9 +42,38 @@ data "oci_core_images" "oracle_linux_arm" {
   }
 }
 
-output "essential_image_info" {
+data "oci_core_images" "oracle_linux_x86" {
+  compartment_id           = var.tenancy_ocid
+  operating_system         = "Oracle Linux"
+  operating_system_version = "9"
+  
+# Filter for the x86_64 architecture specifically
+  filter {
+    name   = "display_name"
+    values = ["^.*-x86_64-.*$"]
+    regex  = true
+  }
+
+  # Ensure we only get "Available" images
+  filter {
+    name   = "state"
+    values = ["AVAILABLE"]
+  }
+}
+
+output "essential_image_info_arm" {
   value = [
     for img in data.oci_core_images.oracle_linux_arm.images : {
+      name = img.display_name
+      ocid = img.id
+      date = img.time_created
+    }
+  ]
+}
+
+output "essential_image_info_x86" {
+  value = [
+    for img in data.oci_core_images.oracle_linux_x86.images : {
       name = img.display_name
       ocid = img.id
       date = img.time_created
@@ -54,10 +84,14 @@ output "essential_image_info" {
 output "latest_arm_image_id" {
   value = data.oci_core_images.oracle_linux_arm.images[0].id
 }
-
+output "latest_x86_image_id" {
+  value = data.oci_core_images.oracle_linux_x86.images[0].id
+}
+  
 locals { latest_arm_image_id = data.oci_core_images.oracle_linux_arm.images[0].id }
+locals { latest_x86_image_id = data.oci_core_images.oracle_linux_x86.images[0].id }
 locals { free_shape_name = data.oci_core_shapes.free_shapes.shapes[0].name }
-
+locals { latest_image_id = length(regexall("A1", free_shape_name)) > 0 ? latest_arm_image_id : latest_x86_image_id }
 
 # Create a report for every Availability Domain found in the region
 resource "oci_core_compute_capacity_report" "ad_check_loop_a1" {
@@ -91,14 +125,6 @@ resource "oci_core_compute_capacity_report" "ad_check_loop_e2" {
     }
   }
 }
-
-# output "full_region_capacity_report" {
-#   value = {
-#     for ad_name, report in oci_core_compute_capacity_report.ad_check_loop :
-#     ad_name => report.shape_availabilities[0].availability_status
-#   }
-# }
-
 
 output "full_region_capacity_report" {
   value = merge(
