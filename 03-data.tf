@@ -152,3 +152,28 @@ output "latest_arm_image_id" {
 
 locals { latest_arm_image_id = data.oci_core_images.oracle_linux_arm.images[0].id }
 locals { free_shape_name = data.oci_core_shapes.free_shapes.shapes[0].name }
+
+
+# Create a report for every Availability Domain found in the region
+resource "oci_core_compute_capacity_report" "ad_check_loop" {
+  for_each = { for ad in data.oci_identity_availability_domains.ads.availability_domains : ad.name => ad }
+
+  availability_domain = each.value.name
+  compartment_id      = var.tenancy_ocid
+
+  shape_availabilities {
+    instance_shape = "VM.Standard.A1.Flex"
+    
+    instance_shape_config {
+      ocpus         = 1
+      memory_in_gbs = 1 # Checking for a healthy 6GB config
+    }
+  }
+}
+
+output "full_region_capacity_report" {
+  value = {
+    for ad_name, report in oci_core_compute_capacity_report.ad_check_loop :
+    ad_name => report.shape_availabilities[0].availability_status
+  }
+}
