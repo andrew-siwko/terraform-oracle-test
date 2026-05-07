@@ -26,10 +26,10 @@ resource "oci_core_instance" "asiwko_vm" {
     ssh_authorized_keys = file(var.ssh_public_key_path)
   }
 
-  lifecycle {
-    replace_triggered_by = [
-      oci_core_instance.asiwko_vm.source_details[0].source_id,
-      oci_core_instance.asiwko_vm.shape
-    ]  
-  }
+  # lifecycle {
+  #   replace_triggered_by = [
+  #     oci_core_instance.asiwko_vm.source_details[0].source_id,
+  #     oci_core_instance.asiwko_vm.shape
+  #   ]  
+  # }
 }
