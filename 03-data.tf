@@ -65,4 +65,4 @@ output "latest_arm_image_id" {
 }
 
 locals { latest_arm_image_id = data.oci_core_images.oracle_linux_arm.images[0].id }
-locals { free_shape_id = data.oci_core_shapes.free_shapes.shapes[0].name }
+locals { free_shape_name = data.oci_core_shapes.free_shapes.shapes[0].name }
