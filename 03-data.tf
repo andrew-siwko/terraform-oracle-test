@@ -3,7 +3,11 @@ resource "oci_core_compute_capacity_report" "test_compute_capacity_report" {
   compartment_id      = var.tenancy_ocid
   shape_availabilities {
     instance_shape = "VM.Standard.A1.Flex"
-    # Optional: instance_shape_config for flex shapes
+    instance_shape_config {
+      ocpus         = 1
+      memory_in_gbs = 1 
+    }
+
   }
 }
 
