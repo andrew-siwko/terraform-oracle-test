@@ -9,5 +9,6 @@ subnet_ocid         = "ocid1.subnet.oc1.iad.aaaaaaaafppavj2lavuxhpjtwypcoau4k4fe
 ssh_public_key_path = "/container_shared/ansible/ansible_rsa.pub"
 region              = "us-ashburn-1"
 
-instance_shape      = "VM.Standard.E2.1.Micro"
-image_ocid          = "ocid1.image.oc1.iad.aaaaaaaahvwnjutyewvsr2nkjcfq6i7l5anlm6bslnoom2vaerhwbzc2wx4a"  # Oracle-Linux-9.7-2026.01.29-0
+# 2026-05-07 - replaced these with data querries 
+# instance_shape      = "VM.Standard.E2.1.Micro"
+# image_ocid          = "ocid1.image.oc1.iad.aaaaaaaahvwnjutyewvsr2nkjcfq6i7l5anlm6bslnoom2vaerhwbzc2wx4a"  # Oracle-Linux-9.7-2026.01.29-0
