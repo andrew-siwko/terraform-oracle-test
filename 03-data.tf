@@ -1,21 +1,3 @@
-resource "oci_core_compute_capacity_report" "test_compute_capacity_report" {
-  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
-  compartment_id      = var.tenancy_ocid
-  shape_availabilities {
-    instance_shape = "VM.Standard.A1.Flex"
-    instance_shape_config {
-      ocpus         = 1
-      memory_in_gbs = 1 
-    }
-
-  }
-}
-
-output "capacity_report" {
-  value = oci_core_compute_capacity_report.test_compute_capacity_report
-}
-
-
 # I hate doing this manually, but the free shapes are named not tagged with attributes
 data "oci_core_shapes" "free_shapes" {
   compartment_id      = var.tenancy_ocid
@@ -27,79 +9,6 @@ data "oci_core_shapes" "free_shapes" {
     values = ["VM.Standard.E2.1.Micro", "VM.Standard.A1.Flex"]
   }
 }
-
-data "oci_core_shapes" "free_shapes_0" {
-  compartment_id      = var.tenancy_ocid
-  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
-
-  # Filter for the specific Always Free shape names
-  filter {
-    name   = "name"
-    values = ["VM.Standard.E2.1.Micro", "VM.Standard.A1.Flex"]
-  }
-}
-data "oci_core_shapes" "free_shapes_1" {
-  compartment_id      = var.tenancy_ocid
-  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[1].name
-
-  # Filter for the specific Always Free shape names
-  filter {
-    name   = "name"
-    values = ["VM.Standard.E2.1.Micro", "VM.Standard.A1.Flex"]
-  }
-}
-data "oci_core_shapes" "free_shapes_2" {
-  compartment_id      = var.tenancy_ocid
-  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[2].name
-
-  # Filter for the specific Always Free shape names
-  filter {
-    name   = "name"
-    values = ["VM.Standard.E2.1.Micro", "VM.Standard.A1.Flex"]
-  }
-}
-
-
-output "essential_shape_info_0" {
-  value = [
-    for shape in data.oci_core_shapes.free_shapes_0.shapes : {
-      name = shape.name
-      network_ports = shape.network_ports
-      memory_in_gbs = shape.memory_in_gbs
-      ocpus = shape.ocpus
-      processor_description = shape.processor_description
-    }
-  ]
-}
-
-output "essential_shape_info_1" {
-  value = [
-    for shape in data.oci_core_shapes.free_shapes_1.shapes : {
-      name = shape.name
-      network_ports = shape.network_ports
-      memory_in_gbs = shape.memory_in_gbs
-      ocpus = shape.ocpus
-      processor_description = shape.processor_description
-    }
-  ]
-}
-
-output "essential_shape_info_2" {
-  value = [
-    for shape in data.oci_core_shapes.free_shapes_2.shapes : {
-      name = shape.name
-      network_ports = shape.network_ports
-      memory_in_gbs = shape.memory_in_gbs
-      ocpus = shape.ocpus
-      processor_description = shape.processor_description
-    }
-  ]
-}
-
-# Output the list of found free shapes
-# output "always_free_shapes" {
-#   value = data.oci_core_shapes.free_shapes.shapes[*]
-# }
 
 output "essential_shape_info" {
   value = [
@@ -132,10 +41,6 @@ data "oci_core_images" "oracle_linux_arm" {
   }
 }
 
-# output "oracle_linux_arm_image" {
-#   value = data.oci_core_images.oracle_linux_arm.images[*]
-# }
-
 output "essential_image_info" {
   value = [
     for img in data.oci_core_images.oracle_linux_arm.images : {
@@ -155,7 +60,7 @@ locals { free_shape_name = data.oci_core_shapes.free_shapes.shapes[0].name }
 
 
 # Create a report for every Availability Domain found in the region
-resource "oci_core_compute_capacity_report" "ad_check_loop" {
+resource "oci_core_compute_capacity_report" "ad_check_loop_a1" {
   for_each = { for ad in data.oci_identity_availability_domains.ads.availability_domains : ad.name => ad }
 
   availability_domain = each.value.name
@@ -171,9 +76,39 @@ resource "oci_core_compute_capacity_report" "ad_check_loop" {
   }
 }
 
-output "full_region_capacity_report" {
-  value = {
-    for ad_name, report in oci_core_compute_capacity_report.ad_check_loop :
-    ad_name => report.shape_availabilities[0].availability_status
+resource "oci_core_compute_capacity_report" "ad_check_loop_e2" {
+  for_each = { for ad in data.oci_identity_availability_domains.ads.availability_domains : ad.name => ad }
+
+  availability_domain = each.value.name
+  compartment_id      = var.tenancy_ocid
+
+  shape_availabilities {
+    instance_shape = "VM.Standard.E2.1.Micro"
+    
+    instance_shape_config {
+      ocpus         = 1
+      memory_in_gbs = 1 # Checking for a healthy 6GB config
+    }
   }
+}
+
+# output "full_region_capacity_report" {
+#   value = {
+#     for ad_name, report in oci_core_compute_capacity_report.ad_check_loop :
+#     ad_name => report.shape_availabilities[0].availability_status
+#   }
+# }
+
+
+output "full_region_capacity_report" {
+  value = merge(
+    {
+      for ad, report in oci_core_compute_capacity_report.ad_check_loop_a1 :
+      "${ad}-A1" => report.shape_availabilities[0].availability_status
+    },
+    {
+      for ad, report in oci_core_compute_capacity_report.ad_check_loop_e2 :
+      "${ad}-E2" => report.shape_availabilities[0].availability_status
+    }
+  )
 }
