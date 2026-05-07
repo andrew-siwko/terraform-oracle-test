@@ -18,7 +18,7 @@ output "always_free_shapes" {
 data "oci_core_images" "oracle_linux_arm" {
   compartment_id           = var.tenancy_ocid
   operating_system         = "Oracle Linux"
- # operating_system_version = "8"
+  operating_system_version = "9"
   
 # Filter for the ARM architecture specifically
   filter {
