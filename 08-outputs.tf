@@ -2,29 +2,6 @@ output "oracle_instance_public_ip" {
   value = oci_core_instance.siwko_vm.public_ip
 }
 
-
-data "oci_core_images" "ol8" {
-  compartment_id           = var.tenancy_ocid
-  operating_system         = "Oracle Linux"
-  operating_system_version = "8"
-  shape                    = "VM.Standard.E2.1.Micro"
-  state                    = "AVAILABLE"
-  # Ensure the newest image is at index 0
-  sort_by    = "TIMECREATED"
-  sort_order = "DESC"
-}
-
-data "oci_core_images" "ol9" {
-  compartment_id           = var.tenancy_ocid
-  operating_system         = "Oracle Linux"
-  operating_system_version = "9"
-  shape                    = "VM.Standard.E2.1.Micro"
-  state                    = "AVAILABLE"
-  # Ensure the newest image is at index 0
-  sort_by    = "TIMECREATED"
-  sort_order = "DESC"
-  
-}
 output "essential_shape_info" {
   value = [
     for shape in data.oci_core_shapes.free_shapes.shapes : {
@@ -76,12 +53,6 @@ output "full_region_capacity_report" {
   )
 }
 
-output "available_keys" {
-  value = local.available_keys
-}
-output "target_shape_suffix" {
-  value = local.target_shape_suffix
-}
 output "selected_availability_domain_name" {
   value = local.selected_ad
 }
