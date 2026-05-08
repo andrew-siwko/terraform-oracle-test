@@ -1,27 +1,15 @@
 terraform {
-  required_version = ">= 1.0.0"
-
-   backend "local" {
+  # I started out with this in an S3 bucket but keeping the state file in a shared folder
+  # was easier for my purposes. 
+  backend "local" {
     path = "/container_shared/tfstate/oracle.tfstate"
   }
-
-  # This project started with the state stored in the provider's oject storage.  
-  # I moved it to local storage as providers charge for object storage and there was no benefit once the exercise was complete.
-  # backend "oci" {
-  #   bucket    = "terraform-state-bucket"
-  #   namespace = "idndrno2dl3v"
-  #   region    = "us-ashburn-1"
-  #   # key       = "terraform.tfstate"
-  # }
-
   required_providers {
+    # The oracle provider will be used for the infrastructure provisioning.
     oci = {
       source  = "oracle/oci"
-      # 2026-05-07 - let's use the latest provider
-      # version = ">= 4.0.0"
     }
-    # We will be working with linode and so will need the linode provider
-    # in order to update DNS on linode, we'll need the linode provider.
+    # The linode provider will be used for the DNS management.
     linode = {
       source = "linode/linode"
     }
