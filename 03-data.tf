@@ -164,9 +164,6 @@ output "available_keys" {
 output "target_shape_suffix" {
   value = local.target_shape_suffix
 }
-output "selected_availability_domain_id" {
-  value = local.selected_ad
-}
 output "selected_availability_domain_name" {
-  value = data.oci_identity_availability_domains.ads.availability_domains[local.selected_ad].name
+  value = local.selected_ad
 }
