@@ -149,6 +149,10 @@ locals {
   selected_ad = length(local.valid_ad_keys) > 0 ? replace(local.valid_ad_keys[0], local.target_shape_suffix, "") : null
 }
 
+output "available_keys" {
+  value = local.available_keys
+}
+
 output "selected_availability_domain_id" {
   value = local.selected_ad
 }
