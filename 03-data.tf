@@ -149,6 +149,9 @@ locals {
   selected_ad = length(local.valid_ad_keys) > 0 ? replace(local.valid_ad_keys[0], local.target_shape_suffix, "") : null
 }
 
+output "free_shape_list" {
+  value = data.oci_core_shapes.free_shapes
+}
 output "available_keys" {
   value = local.available_keys
 }
