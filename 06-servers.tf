@@ -30,6 +30,15 @@ resource "oci_core_instance" "siwko_vm" {
 
   metadata = {
     ssh_authorized_keys = file(var.ssh_public_key_path)
+    user_data = base64encode(<<-EOT
+      #!/bin/bash
+      # Reclaim 448MB of RAM by disabling kdump
+      sed -i 's/crashkernel=[^[:space:]"]*/crashkernel=no/g' /etc/default/grub
+      grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+      # Reboot to apply the changes immediately
+      shutdown -r +1 "Reclaiming memory for Nagios stability"
+    EOT
+    )
   }
 
 }
