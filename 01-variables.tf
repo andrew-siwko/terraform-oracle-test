@@ -43,12 +43,6 @@ variable "oci_region" {
   default     = "us-ashburn-1"
 }
 
-variable "instance_shape" {
-  description = "The shape of the instance to create"
-  type        = string
-  default     = "VM.Standard.E2.1.Micro"
-}
-
 variable "subnet_ocid" {
   description = "The OCID of the subnet where the VM will reside"
   type        = string

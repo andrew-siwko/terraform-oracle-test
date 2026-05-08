@@ -6,7 +6,6 @@ resource "oci_core_instance" "siwko_vm" {
   availability_domain = local.selected_ad
   compartment_id      = var.tenancy_ocid
   display_name        = "asiwko-vm-01"
-  # shape               = var.instance_shape
   shape               = local.free_shape_name
 
   create_vnic_details {
