@@ -17,7 +17,6 @@ resource "oci_core_instance" "siwko_vm" {
 
   source_details {
     source_type             = "image"
-    # source_id               = var.image_ocid
     source_id               = local.latest_image_id
     boot_volume_size_in_gbs = 50
   }
