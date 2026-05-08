@@ -124,14 +124,21 @@ output "full_region_capacity_report" {
 }
 
 locals {
-  # 1. Identify all keys that are currently AVAILABLE
+  full_region_capacity_report_map = merge(
+    {
+      for ad, report in oci_core_compute_capacity_report.ad_check_loop_a1 :
+      "${ad}-A1" => report.shape_availabilities[0].availability_status
+    },
+    {
+      for ad, report in oci_core_compute_capacity_report.ad_check_loop_e2 :
+      "${ad}-E2" => report.shape_availabilities[0].availability_status
+    }
+  )
   available_keys = [
     for key, status in local.full_region_capacity_report_map : key 
     if status == "AVAILABLE"
   ]
 
-  # 2. Filter that list to only include keys matching the shape we want (A1 or E2)
-  # We check if the key ends with the suffix corresponding to our free_shape_name
   target_shape_suffix = length(regexall("A1", local.free_shape_name)) > 0 ? "-A1" : "-E2"
   
   valid_ad_keys = [
@@ -139,8 +146,6 @@ locals {
     if endswith(key, local.target_shape_suffix)
   ]
 
-  # 3. Extract the AD name by removing the shape suffix from the first valid key
-  # Example: "wXHG:US-ASHBURN-AD-2-E2" becomes "wXHG:US-ASHBURN-AD-2"
   selected_ad = length(local.valid_ad_keys) > 0 ? replace(local.valid_ad_keys[0], local.target_shape_suffix, "") : null
 }
 
