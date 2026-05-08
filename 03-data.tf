@@ -60,6 +60,10 @@ data "oci_core_images" "oracle_linux_x86" {
   }
 }
 
+output "all_x86_images" {
+  value = data.oci_core_images.oracle_linux_x86.images
+}
+
 output "essential_image_info_arm" {
   value = [
     for img in data.oci_core_images.oracle_linux_arm.images : {
