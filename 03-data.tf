@@ -28,12 +28,13 @@ data "oci_core_images" "oracle_linux_arm" {
   operating_system         = "Oracle Linux"
   operating_system_version = "9"
   
-# Filter for the ARM architecture specifically
-  filter {
-    name   = "display_name"
-    values = ["^.*-aarch64-.*$"]
-    regex  = true
-  }
+  shape                    = "VM.Standard.A1.Flex"
+# # Filter for the ARM architecture specifically
+#   filter {
+#     name   = "display_name"
+#     values = ["^.*-aarch64-.*$"]
+#     regex  = true
+#   }
 
   # Ensure we only get "Available" images
   filter {
@@ -54,6 +55,7 @@ data "oci_core_images" "oracle_linux_x86" {
   #   regex  = true
   # }
   # Ensure we only get "Available" images
+  shape                    = "VM.Standard.E2.1.Micro"
   filter {
     name   = "state"
     values = ["AVAILABLE"]
