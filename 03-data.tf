@@ -47,13 +47,12 @@ data "oci_core_images" "oracle_linux_x86" {
   operating_system         = "Oracle Linux"
   operating_system_version = "9"
   
-# Filter for the x86_64 architecture specifically
   filter {
     name   = "display_name"
-    values = ["^.*-x86_64-.*$"]
+    # This regex matches standard names but excludes "aarch64"
+    values = ["^((?!aarch64).)*$"] 
     regex  = true
   }
-
   # Ensure we only get "Available" images
   filter {
     name   = "state"
