@@ -152,7 +152,9 @@ locals {
 output "available_keys" {
   value = local.available_keys
 }
-
+output "target_shape_suffix" {
+  value = local.target_shape_suffix
+}
 output "selected_availability_domain_id" {
   value = local.selected_ad
 }
