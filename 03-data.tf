@@ -28,6 +28,8 @@ data "oci_core_images" "oracle_linux_arm" {
     name   = "state"
     values = ["AVAILABLE"]
   }
+  sort_by    = "TIMECREATED"
+  sort_order = "DESC"
 }
 
 data "oci_core_images" "oracle_linux_x86" {
@@ -39,6 +41,8 @@ data "oci_core_images" "oracle_linux_x86" {
     name   = "state"
     values = ["AVAILABLE"]
   }
+  sort_by    = "TIMECREATED"
+  sort_order = "DESC"
 }
 
 output "essential_image_info_arm" {
