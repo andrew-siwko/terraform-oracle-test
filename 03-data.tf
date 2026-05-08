@@ -23,7 +23,6 @@ output "essential_shape_info" {
   ]
 }
 
-
 data "oci_core_images" "oracle_linux_arm" {
   compartment_id           = var.tenancy_ocid
   operating_system         = "Oracle Linux"
@@ -45,7 +44,6 @@ data "oci_core_images" "oracle_linux_x86" {
     values = ["AVAILABLE"]
   }
 }
-
 
 output "essential_image_info_arm" {
   value = [
@@ -76,7 +74,8 @@ output "latest_x86_image_id" {
   
 locals { latest_arm_image_id = data.oci_core_images.oracle_linux_arm.images[0].id }
 locals { latest_x86_image_id = data.oci_core_images.oracle_linux_x86.images[0].id }
-locals { free_shape_name = data.oci_core_shapes.free_shapes.shapes[0].name }
+# locals { free_shape_name = data.oci_core_shapes.free_shapes.shapes[0].name }
+locals { free_shape_name = "VM.Standard.E2.1.Micro" }
 locals { latest_image_id = length(regexall("A1", local.free_shape_name)) > 0 ? local.latest_arm_image_id : local.latest_x86_image_id }
 
 # Create a report for every Availability Domain found in the region
