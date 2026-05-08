@@ -27,16 +27,7 @@ data "oci_core_images" "oracle_linux_arm" {
   compartment_id           = var.tenancy_ocid
   operating_system         = "Oracle Linux"
   operating_system_version = "9"
-  
   shape                    = "VM.Standard.A1.Flex"
-# # Filter for the ARM architecture specifically
-#   filter {
-#     name   = "display_name"
-#     values = ["^.*-aarch64-.*$"]
-#     regex  = true
-#   }
-
-  # Ensure we only get "Available" images
   filter {
     name   = "state"
     values = ["AVAILABLE"]
@@ -47,14 +38,6 @@ data "oci_core_images" "oracle_linux_x86" {
   compartment_id           = var.tenancy_ocid
   operating_system         = "Oracle Linux"
   operating_system_version = "9"
-  
-  # filter {
-  #   name   = "display_name"
-  #   # This regex matches standard names but excludes "aarch64"
-  #   values = ["^((?!aarch64).)*$"] 
-  #   regex  = true
-  # }
-  # Ensure we only get "Available" images
   shape                    = "VM.Standard.E2.1.Micro"
   filter {
     name   = "state"
@@ -62,9 +45,6 @@ data "oci_core_images" "oracle_linux_x86" {
   }
 }
 
-output "all_x86_images" {
-  value = data.oci_core_images.oracle_linux_x86.images
-}
 
 output "essential_image_info_arm" {
   value = [
@@ -110,7 +90,7 @@ resource "oci_core_compute_capacity_report" "ad_check_loop_a1" {
     
     instance_shape_config {
       ocpus         = 1
-      memory_in_gbs = 1 # Checking for a healthy 6GB config
+      memory_in_gbs = 1
     }
   }
 }
@@ -126,11 +106,10 @@ resource "oci_core_compute_capacity_report" "ad_check_loop_e2" {
     
     instance_shape_config {
       ocpus         = 1
-      memory_in_gbs = 1 # Checking for a healthy 6GB config
+      memory_in_gbs = 1
     }
   }
 }
-
 output "full_region_capacity_report" {
   value = merge(
     {
@@ -142,4 +121,29 @@ output "full_region_capacity_report" {
       "${ad}-E2" => report.shape_availabilities[0].availability_status
     }
   )
+}
+
+locals {
+  # 1. Identify all keys that are currently AVAILABLE
+  available_keys = [
+    for key, status in local.full_region_capacity_report_map : key 
+    if status == "AVAILABLE"
+  ]
+
+  # 2. Filter that list to only include keys matching the shape we want (A1 or E2)
+  # We check if the key ends with the suffix corresponding to our free_shape_name
+  target_shape_suffix = length(regexall("A1", local.free_shape_name)) > 0 ? "-A1" : "-E2"
+  
+  valid_ad_keys = [
+    for key in local.available_keys : key 
+    if endswith(key, local.target_shape_suffix)
+  ]
+
+  # 3. Extract the AD name by removing the shape suffix from the first valid key
+  # Example: "wXHG:US-ASHBURN-AD-2-E2" becomes "wXHG:US-ASHBURN-AD-2"
+  selected_ad = length(local.valid_ad_keys) > 0 ? replace(local.valid_ad_keys[0], local.target_shape_suffix, "") : null
+}
+
+output "selected_availability_domain" {
+  value = local.selected_ad
 }
