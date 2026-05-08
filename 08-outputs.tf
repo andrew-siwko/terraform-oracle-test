@@ -14,16 +14,6 @@ data "oci_core_images" "ol8" {
   sort_order = "DESC"
 }
 
-# output "latest_ol8_image_ocid" {
-#   value = {
-#     for image in data.oci_core_images.ol8.images : image.id => {
-#       display_name = image.display_name
-#       state        = image.state
-#       id           = image.id
-#     }
-#   }
-# }
-
 data "oci_core_images" "ol9" {
   compartment_id           = var.tenancy_ocid
   operating_system         = "Oracle Linux"
@@ -35,13 +25,3 @@ data "oci_core_images" "ol9" {
   sort_order = "DESC"
   
 }
-
-# output "latest_ol9_image_ocid" {
-#   value = {
-#     for image in data.oci_core_images.ol9.images : image.display_name => {
-#       # display_name = image.display_name
-#       state        = image.state
-#       id           = image.id
-#     }
-#   }
-# }
