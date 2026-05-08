@@ -1,7 +1,8 @@
 # I hate doing this manually, but the free shapes are named not tagged with attributes
 data "oci_core_shapes" "free_shapes" {
   compartment_id      = var.tenancy_ocid
-  availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
+  # This is bad.  We're looking for free across all ADs, but we're pinned to a specific AD.
+  # availability_domain = data.oci_identity_availability_domains.ads.availability_domains[0].name
 
   # Filter for the specific Always Free shape names
   filter {
