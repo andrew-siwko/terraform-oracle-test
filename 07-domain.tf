@@ -23,3 +23,11 @@ resource "linode_domain_record" "oci01_a_record" {
   ttl_sec     = 5
   target      = oci_core_instance.siwko_vm.public_ip
 }
+
+resource "linode_domain_record" "contronautics_cname_record" {
+  domain_id   = linode_domain.dns_zone.id
+  name        = "contronautics"
+  record_type = "CNAME"
+  ttl_sec     = 5
+  target      = "oci01.${var.domain_name}"
+}
