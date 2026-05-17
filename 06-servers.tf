@@ -30,11 +30,14 @@ resource "oci_core_instance" "siwko_vm" {
     ssh_authorized_keys = file(var.ssh_public_key_path)
     user_data = base64encode(<<-EOT
       #!/bin/bash
+      # the code below didn't work so I added this.
+      grubby --update-kernel=ALL --remove-args="crashkernel=1G-64G:448M,64G-:512M"
       # Reclaim 448MB of RAM by disabling kdump
       sed -i 's/crashkernel=[^[:space:]"]*/crashkernel=no/g' /etc/default/grub
       grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg
+
       # Reboot to apply the changes immediately
-      shutdown -r +1 "Reclaiming memory for Nagios stability"
+      shutdown -r +1 "Reclaiming crashdump memory"
     EOT
     )
   }
