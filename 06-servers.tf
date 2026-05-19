@@ -3,6 +3,11 @@ data "oci_identity_availability_domains" "ads" {
 }
 
 resource "oci_core_instance" "siwko_vm" {
+  # 2026-05-18 - I'm using this to host a small web site and don't want to destroy the machine 
+  #              every time a new image is released.
+  lifecycle {
+      prevent_destroy = true
+    }
   availability_domain = local.selected_ad
   compartment_id      = var.tenancy_ocid
   display_name        = "asiwko-vm-01"
